@@ -1,0 +1,31 @@
+Steps to run
+
+1.  Build the org.wso2.carbon.identity.application.authentication.endpoint and copy the customotpauthenticationendpoint.war
+    to <IS-HOME>/repository/deployment/server/webapps/
+
+2.  Build the org.wso2.carbon.identity.authenticator & copy the org.wso2.carbon.extension.identity.authenticator
+.customotp.connector-x.x.x.jar to <IS-HOME>/repository/components/dropins
+
+3. Add the following user claims under 'http://wso2.org/claims'.
+
+    MOBILE_CLAIM = "http://wso2.org/claims/mobile";    
+
+    Claim for user disable option - This is optional.
+    USER_CUSTOMOTP_DISABLED_CLAIM_URI = "http://wso2.org/claims/identity/customotp_disabled";
+
+4. Add the following configuration  <IS_HOME>/repository/conf/identity/application-authentication.xml file under the <AuthenticatorConfigs> section
+
+<AuthenticatorConfig name="CustomOTP" enabled="true">
+    <Parameter name="CustomOTPAuthenticationEndpointURL">https://localhost:9444/customotpauthenticationendpoint/customotp.jsp</Parameter>
+    <Parameter name="CustomOTPAuthenticationEndpointErrorPage">https://localhost:9444/customotpauthenticationendpoint/customotpError.jsp</Parameter>    
+    <Parameter name="CustomOTPEnableByUserClaim">true</Parameter>
+    <Parameter name="usecase">association</Parameter>
+    <Parameter name="userAttribute">email</Parameter>
+    <Parameter name="secondaryUserstore">primary</Parameter>
+    <Parameter name="CaptureAndUpdateMobileNumber">true</Parameter>
+    <Parameter name="screenUserAttribute">http://wso2.org/claims/mobile</Parameter>
+</AuthenticatorConfig>
+
+5.  Follow the steps in https://docs.wso2.com/display/ISCONNECTORS/SMSOTP+Authenticator
+
+
